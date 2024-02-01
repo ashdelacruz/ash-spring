@@ -29,3 +29,5 @@ target/*
 
 application-*.properties
 !application.properties.example
+
+.DS_Store
