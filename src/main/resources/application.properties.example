@@ -1,0 +1,66 @@
+
+# spring.data.mongodb.database=ashdelacruz_db
+# spring.data.mongodb.host=localhost
+
+spring.data.mongodb.uri=mongodb+srv://{CONNECTION_STRING}.mongodb.net/
+spring.data.mongodb.database=db_name
+
+#Default TCP port used by mongo
+# spring.data.mongodb.port=27017
+
+#Auth
+ashdelacruz.app.jwtCookieName=access_token
+ashdelacruz.app.jwtSecret=================================================================
+ashdelacruz.app.jwtExpirationMs=3600000 
+#7,776,000,000ms = 30 days
+#  259,200,000ms = 3 days
+#   86,400,000ms = 1 day
+#    3,600,000ms = 1 hour
+#       60,000ms = 1 minute
+
+
+#URLs
+
+#Logging
+logging.level.root=info
+# logging.level.org.springframework.web=trace
+# logging.level.org.springframework.mail=trace
+# logging.level.org.springframework.data.mongodb=warn
+logging.pattern.console=%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){blue} %clr([%thread]){cyan} %clr(%-5level) %clr(%logger{36}.%M\\(\\):: %line){magenta} - %msg%n
+logging.file.path=/var/log
+logging.file.name=app.log
+
+server.port=80
+
+#Email 
+fromEmail=noreply@email.com
+fromName=from_name
+myEmail=my@email.com
+
+spring.mail.host=host.com
+spring.mail.port=587
+spring.mail.username=UNAME
+spring.mail.password=PASS
+spring.mail.properties.transport.protocol=smtp
+spring.mail.properties.smtp.port=587
+spring.mail.properties.smtp.auth=true
+spring.mail.properties.smtp.starttls.enable=true
+spring.mail.properties.smtp.starttls.required=true
+devModeEmail=true
+
+
+maxFailedLoginAttempts=4
+#locked out on 4th failed attempt
+
+lockTimeDurationMs=60000
+#7,776,000,000ms = 30 days
+#  259,200,000ms = 3 days
+#   86,400,000ms = 1 day
+#    3,600,000ms = 1 hour
+#       60,000ms = 1 minute
+
+
+loginUrl=http://localhost:80/user-auth/login
+resetUrl=http://localhost:80/user-auth/reset
+contactUrl=http://localhost:80/contact
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:th="http://www.thymeleaf.org"
+>
+  <head>
+    <meta charset="UTF-8" />
+
+    <!-- <img th:src="${LOGO_PATH}"> -->
+    <h1>AshDelaCruz.com</h1>
+    <!-- <img th:src="@{/target/classes/media/adc_logo_yellow.png}"> -->
+  </head>
+  <body>
+    <h3>Hello <span th:text="${name}"></span></h3>
+
+    <p><span th:text="${message1}"></span></p>
+
+    <p th:text="${url}"></p>
+
+    <p><span th:text="${message2}"></span></p>
+
+    <p><strong>Do not share links with anyone</strong></p>
+    
+    <h4>Thank you</h4>
+  </body>
+</html>

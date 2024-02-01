@@ -1,0 +1,298 @@
+[
+    {
+      "id": "656a736e6323e3392d11f68f",
+      "status": 1,
+      "username": "admin1",
+      "email": "admin1@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        },
+        {
+          "authority": "ROLE_ADMIN"
+        }
+      ],
+      "roleString": "Admin",
+      "lastLogin": "2024-01-15T21:32:45.904+00:00",
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd48b6323e3392d11f698",
+      "status": 0,
+      "username": "mod1",
+      "email": "mod1@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        }
+      ],
+      "roleString": "Moderator",
+      "lastLogin": "2024-01-08T03:48:17.527+00:00",
+      "passwordAttempts": 0
+    },
+    {
+      "id": "65a47608911ab13f971a521e",
+      "status": -1,
+      "username": "pending1",
+      "email": "pending1@gmail.com",
+      "authorities": [],
+      "roleString": null,
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "65a47625911ab13f971a521f",
+      "status": -1,
+      "username": "pending2",
+      "email": "pending2@gmail.com",
+      "authorities": [],
+      "roleString": null,
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "65a475db911ab13f971a521d",
+      "status": -1,
+      "username": "approved1",
+      "email": "approved1@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "659b02357b1c4f1b6514bd71",
+      "status": 1,
+      "username": "user6",
+      "email": "user6@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "65927db322ed8f4bc07233cc",
+      "status": 1,
+      "username": "guest1",
+      "email": "guest1@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        }
+      ],
+      "roleString": "Guest",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "65a475b4911ab13f971a521c",
+      "status": 1,
+      "username": "user7",
+      "email": "user7@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": "2024-01-15T04:43:35.412+00:00",
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd48f6323e3392d11f699",
+      "status": 1,
+      "username": "mod2",
+      "email": "mod2@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        }
+      ],
+      "roleString": "Moderator",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd4936323e3392d11f69a",
+      "status": 0,
+      "username": "mod3",
+      "email": "mod3@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        }
+      ],
+      "roleString": "Moderator",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd49a6323e3392d11f69b",
+      "status": 0,
+      "username": "user1",
+      "email": "user1@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd4a06323e3392d11f69c",
+      "status": 1,
+      "username": "user2",
+      "email": "user2@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd4a46323e3392d11f69d",
+      "status": 0,
+      "username": "user3",
+      "email": "user3@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "656bd4c96323e3392d11f69e",
+      "status": 0,
+      "username": "user4",
+      "email": "user4@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "657dd5886c076c44084fdf34",
+      "status": 1,
+      "username": "admin2",
+      "email": "admin2@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        },
+        {
+          "authority": "ROLE_ADMIN"
+        }
+      ],
+      "roleString": "Admin",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "659270e422ed8f4bc07233bc",
+      "status": 1,
+      "username": "user5",
+      "email": "user5@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        }
+      ],
+      "roleString": "User",
+      "lastLogin": null,
+      "passwordAttempts": 0
+    },
+    {
+      "id": "659b021a7b1c4f1b6514bd6f",
+      "status": 1,
+      "username": "mod4",
+      "email": "mod4@gmail.com",
+      "authorities": [
+        {
+          "authority": "ROLE_GUEST"
+        },
+        {
+          "authority": "ROLE_USER"
+        },
+        {
+          "authority": "ROLE_MODERATOR"
+        }
+      ],
+      "roleString": "Moderator",
+      "lastLogin": "2024-01-15T04:29:42.526+00:00",
+      "passwordAttempts": 0
+    }
+  ]
