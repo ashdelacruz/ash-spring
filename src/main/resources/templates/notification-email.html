@@ -1,21 +1,56 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  xmlns="http://www.w3.org/1999/xhtml"
-  xmlns:th="http://www.thymeleaf.org"
->
+
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta charset="UTF-8" />
-    <h1>AshDelaCruz.com</h1>
-    <!-- <img th:src=${LOGO_PATH}> -->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>AshDelaCruz.com</title>
   </head>
+
   <body>
-    <h3>Hello <span th:text="${name}"></span></h3>
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td
+          align="center"
+          valign="top"
+          bgcolor="#ffc107"
+          style="background-color: #212121"
+        >
+          <br />
+          <br />
+          <table width="600" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+              <td
+                align="center"
+                valign="top"
+                style="
+                  background-color: #ffc107;
+                  font-family: Arial, Helvetica, sans-serif;
+                  font-size: 13px;
+                  padding: 0px 15px 10px 15px;
+                "
+              >
+                <div style="font-size: 48px; color: 212121">
+                  <b>AshDelaCruz.com</b>
+                </div>
 
-    <p><span th:text="${message1}"></span></p>
+                <div style="font-size: 24px; color: 212121">
+                 <h3>Hello <span th:text="${name}"></span></h3>
+                </div>
+                <div>
+                  <p><span th:text="${message1}"></span></p>
 
-    <p><span th:text="${message2}"></span></p>
-    
-    <h4>Thank you</h4>
+                  <p><span th:text="${message2}"></span></p>
+                  
+                  <h4>Thank you</h4>
+       
+                </div>
+              </td>
+            </tr>
+          </table>
+          <br />
+          <br />
+        </td>
+      </tr>
+    </table>
   </body>
 </html>
