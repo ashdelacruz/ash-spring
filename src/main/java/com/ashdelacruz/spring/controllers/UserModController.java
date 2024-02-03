@@ -21,7 +21,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 // @CrossOrigin(origins = "*")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 
 @RestController
 @RequestMapping("/api/mod/user")
@@ -120,23 +120,47 @@ public class UserModController {
      * Expects a list of user IDs that are all the same status,
      * then their status set to the newStatus
      * 
-     * @param userStatusRequest A list of user IDs, and the new status to set for
+     * @param statusRequest A list of user IDs, and the new status to set for
      *                          the user(s)
      * @return
      */
     @PutMapping("/status")
     @PreAuthorize("hasRole('MODERATOR')")
-    public ResponseEntity<?> setUserStatus(@Valid @RequestBody UserModRequest userStatusRequest) {
+    public ResponseEntity<?> setUserStatus(@Valid @RequestBody UserModRequest statusRequest) {
         log.info("receieved request for setUserStatus");
         ResponseEntity<Object> response;
-        if (userStatusRequest.getIds() == null || userStatusRequest.getIds().isEmpty()) {
+        if (statusRequest.getIds() == null || statusRequest.getIds().isEmpty()) {
             response = this.responseService.generateResponse("ids required",
                     HttpStatus.BAD_REQUEST, null);
             log.error("RETURN response = {}", response.toString());
             return response;
         }
 
-        return this.userModService.setStatus(userStatusRequest.getIds(), userStatusRequest.getNewStatus());
+        return this.userModService.setStatus(statusRequest.getIds(), statusRequest.getNewStatus());
+    }
+
+    /**
+     * Changes User(s) status
+     * Expects a list of user IDs that are all the same status,
+     * then their status set to the newStatus
+     * 
+     * @param userStatusRequest A list of user IDs, and the new status to set for
+     *                          the user(s)
+     * @return
+     */
+    @PutMapping("/unlock")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<?> unlockUser(@Valid @RequestBody UserModRequest unlockRequest) {
+        log.info("receieved request for setUserStatus");
+        ResponseEntity<Object> response;
+        if (unlockRequest.getIds() == null || unlockRequest.getIds().isEmpty()) {
+            response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
+        }
+
+        return this.userModService.unlock(unlockRequest.getIds());
     }
 
     /**

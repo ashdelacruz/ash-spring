@@ -573,6 +573,72 @@ public class UserModService {
 
     }
 
+    public ResponseEntity<?> unlock(List<String> ids) {
+        ResponseEntity<Object> response;
+        List<User> validUsers = new ArrayList<User>();
+
+        log.info("userIDs = {} ", Arrays.toString(validUsers.toArray()));
+
+        // Validate user
+        for (int i = 0; i < ids.size(); i++) {
+            if (!userRepository.existsById(ids.get(i))) {
+                response = this.responseService.generateResponse("User ID " + ids.get(i) + " not found",
+                        HttpStatus.UNPROCESSABLE_ENTITY, null);
+                log.error("RETURN response = {} ", response.toString());
+                return response;
+            }
+            User user = userRepository.findById(ids.get(i)).get();
+
+            if (user.getLastLogin() == null && user.getRoles().isEmpty()) {
+                response = this.responseService.generateResponse(
+                        "User ID " + ids.get(i) + " is pending approval",
+                        HttpStatus.UNPROCESSABLE_ENTITY, null);
+                log.error("RETURN response = {} ", response.toString());
+                return response;
+            }
+
+            if (user.isAccountNonLocked()) {
+                response = this.responseService.generateResponse(
+                        "User ID " + ids.get(i) + " is already unlocked",
+                        HttpStatus.UNPROCESSABLE_ENTITY, null);
+                log.error("RETURN response = {} ", response.toString());
+                return response;
+
+            }
+
+            log.info("user is valid; adding to validUsers");
+            validUsers.add(user);
+
+        }
+        log.info("all userIDs valid = {}", Arrays.toString(validUsers.toArray()));
+
+        List<UserDetails> responseUsers = new ArrayList<>(validUsers.size());
+        for (User user : validUsers) {
+            user.setAccountNonLocked(true);
+            user.setLockTime(null);
+            user.setFailedLoginAttempts(0);
+            log.info("unlocking user");
+
+            this.emailService.sendAccountUnlockedEmail(user);
+            log.info("Unlock account notification email sent to user {}", user.getUsername());
+
+            userRepository.save(user);
+            log.info("user saved; adding to responseUsers");
+            responseUsers.add(UserDetailsImpl.build(user));
+        }
+
+        Map<String, List<UserDetails>> responseData = new HashMap<String, List<UserDetails>>();
+        responseData.put("users", responseUsers);
+        log.info("mapping responseUsers to responseData");
+
+        response = this.responseService.generateResponse(
+                "Successfully unlocked user(s)", HttpStatus.OK,
+                responseData);
+        log.info("RETURN response = {}", response.toString());
+        return response;
+
+    }
+
     public ResponseEntity<?> deleteUser(List<String> ids) {
         ResponseEntity<Object> response;
         List<User> validUsers = new ArrayList<User>();

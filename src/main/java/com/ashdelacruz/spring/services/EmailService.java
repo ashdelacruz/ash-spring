@@ -47,6 +47,9 @@ public class EmailService {
     @Value("${contactUrl}")
     private String contactUrl;
 
+    @Value("${loginUrl}")
+    private String loginUrl;
+
     public final String RESET_PASS_SUBJECT = "Password Reset Successful - AshDelaCruz.com";
     public final String RESET_PASS_MESSAGE = "Your password has been successfully reset.";
 
@@ -60,6 +63,10 @@ public class EmailService {
     public final String FORGOT_UNAME_MESSAGE = "A request to reset your username has been submitted. Click the link below to reset your username.";
     public final String FORGOT_UNAME_AND_PASS_MESSAGE = "A request to reset your username and password has been submitted. Click the link below to reset your username and password.";
     public final String ACCOUNT_ACTIVATION_MESSAGE = "A request to resend your account activation link has been submitted. Click the link below to login and activate your account.";
+
+    public final String UNLOCK_SUBJECT = "Account Unlocked - AshDelaCruz.com";
+    public final String UNLOCK_MESSAGE = "Your account has been unlocked by a moderator. Click the above link to try logging in again.";
+
 
     @Async
     public void send(String toEmail, String subject, String message) {
@@ -266,6 +273,19 @@ public class EmailService {
         notificationEmail.setName(user.getUsername());
         this.htmlNotificationSend(notificationEmail);
         log.info("notificaiton email sent to {}", user.getEmail());
+    }
+
+    public void sendAccountUnlockedEmail(User user) {
+
+        AuthEmail authEmail = new AuthEmail(
+                user.getEmail(),
+                user.getUsername(),
+                this.UNLOCK_SUBJECT,
+                this.loginUrl,
+                this.UNLOCK_MESSAGE);
+                authEmail.setName(user.getUsername());
+        this.htmlAuthSend(authEmail);
+        log.info("auth email sent to {}", user.getEmail());
     }
 
     // private SimpleMailMessage constructEmail(String subject, String body,

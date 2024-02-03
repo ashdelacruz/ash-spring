@@ -8,9 +8,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.bson.json.JsonObject;
@@ -32,6 +35,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ashdelacruz.spring.models.UserDetailsImpl;
+import com.ashdelacruz.spring.models.enums.ERole;
+import com.ashdelacruz.spring.models.mongodb.collections.Role;
+import com.ashdelacruz.spring.models.mongodb.collections.User;
 import com.ashdelacruz.spring.payload.request.UserModRequest;
 import com.ashdelacruz.spring.security.services.ResponseService;
 import com.ashdelacruz.spring.security.services.UserModService;
@@ -41,249 +48,294 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
-// @CrossOrigin(origins = "http://localhost:80", maxAge = 3600, allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 
 @RestController
-@RequestMapping("/api/demo")
+@RequestMapping("/api/demo/user")
 @Slf4j
 public class DemoController {
 
     @Autowired
     ResponseService responseService;
 
-    @Value("classpath:static/demoUserList.json")
-    Resource demoUserList;
+    // @Value("classpath:static/demoUserList.json")
+    // Resource demoUserList;
 
     // @Autowired
     // UserModService userModService;
     // Demo Mode
+    List<UserDetails> userDetailsList = new ArrayList<UserDetails>();
+
+    long DAY_IN_MS = 1000 * 60 * 60 * 24;
+
+    public void buildDemoUserList() {
+        Set<Role> adminRole = new HashSet<>();
+        adminRole.add(new Role(ERole.ROLE_ADMIN));
+        adminRole.add(new Role(ERole.ROLE_MODERATOR));
+        adminRole.add(new Role(ERole.ROLE_USER));
+        adminRole.add(new Role(ERole.ROLE_GUEST));
+
+        Set<Role> modRole = new HashSet<>();
+        modRole.add(new Role(ERole.ROLE_MODERATOR));
+        modRole.add(new Role(ERole.ROLE_USER));
+        modRole.add(new Role(ERole.ROLE_GUEST));
+
+        Set<Role> userRole = new HashSet<>();
+        userRole.add(new Role(ERole.ROLE_USER));
+        userRole.add(new Role(ERole.ROLE_GUEST));
+
+        Set<Role> guestRole = new HashSet<>();
+        guestRole.add(new Role(ERole.ROLE_GUEST));
+
+        Set<Role> emptyRole = new HashSet<>();
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "656a736e6323e3392d11f68f",
+                "admin1",
+                "admin1@email.com",
+                new Date(System.currentTimeMillis() - (7 * DAY_IN_MS)),
+                0,
+                null,
+                true,
+                true,
+                adminRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "656bd48f6323e3392d11f699",
+                "pending1",
+                "pending1@email.com",
+                null,
+                0,
+                null,
+                false,
+                true,
+                emptyRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "656bd4936323e3392d11f69a",
+                "approved1",
+                "approved1@email.com",
+                null,
+                0,
+                null,
+                true,
+                true,
+                userRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "65a475b4911ab13f971a521c",
+                "locked1",
+                "locked1@email.com",
+                new Date(System.currentTimeMillis() - (10 * DAY_IN_MS)),
+                4,
+                new Date(System.currentTimeMillis() - (1 * (DAY_IN_MS / 2))),
+                true,
+                false,
+                modRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "656bd48b6323e3392d11f698",
+                "mod1",
+                "mod1@email.com",
+                new Date(System.currentTimeMillis() - (8 * DAY_IN_MS)),
+                0,
+                null,
+                true,
+                true,
+                modRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "65a47608911ab13f971a521e",
+                "mod2",
+                "mod2@email.com",
+                new Date(System.currentTimeMillis() - (8 * DAY_IN_MS)),
+                0,
+                null,
+                false,
+                true,
+                modRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "65a47625911ab13f971a521f",
+                "user1",
+                "user1@email.com",
+                new Date(System.currentTimeMillis() - (9 * DAY_IN_MS)),
+                0,
+                null,
+                true,
+                true,
+                userRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "65a475db911ab13f971a521d",
+                "user2",
+                "user2@email.com",
+                new Date(System.currentTimeMillis() - (9 * DAY_IN_MS)),
+                0,
+                null,
+                false,
+                true,
+                userRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "659b02357b1c4f1b6514bd71",
+                "guest1",
+                "guest1@email.com",
+                new Date(System.currentTimeMillis() - (10 * DAY_IN_MS)),
+                0,
+                null,
+                true,
+                true,
+                guestRole,
+                null)));
+
+        userDetailsList.add(UserDetailsImpl.build(new User(
+                "65927db322ed8f4bc07233cc",
+                "guest2",
+                "guest2@email.com",
+                new Date(System.currentTimeMillis() - (10 * DAY_IN_MS)),
+                0,
+                null,
+                false,
+                true,
+                guestRole,
+                null)));
+
+        log.info("demoUSerList = {}", Arrays.toString(userDetailsList.toArray()));
+    }
 
     /**
      * 
      * @return a list of all user info, not including passwords
      */
-    @GetMapping("/user/list")
+    @GetMapping("/list")
     public ResponseEntity<?> demoGetUserList() {
-        log.info("");
-        String demoUserListStr = "";
-    //     try {
-    //         // log.info("demoUserList = {}", demoUserList.getFile());
-    //         // log.info("demoUserList = {}", demoUserList.getContentAsString(StandardCharsets.UTF_8));
-    //         // demoUserListStr = demoUserList.getContentAsString(StandardCharsets.UTF_8);
 
-    //         File resource = ResourceUtils.getFile(
-    //   "classpath:static/demoUserList.json");
-    //             // log.info("demoUserList = {}", demoUserList.getContentAsString(StandardCharsets.UTF_8));
-          
-    //         demoUserListStr = new String(
-    //                 Files.readAllBytes(resource.toPath()));
-    //                 log.info("demoUserList = {}", demoUserListStr);
+        if (userDetailsList.size() == 0) {
+            this.buildDemoUserList();
+        }
 
+        Map<String, List<UserDetails>> responseData = new HashMap<String, List<UserDetails>>();
+        responseData.put("users", userDetailsList);
+        log.info("mapping responseUsers to responseData");
 
-          
-
-    //     } catch (IOException e) {
-    //         // TODO Auto-generated catch block
-    //         e.printStackTrace();
-    //     }
-    // = new ArrayList<ResponseUser>();
-            Resource resource = new ClassPathResource("/static/json/beers.json");
-       
-                   // read json and write to db
-            ObjectMapper mapper = new ObjectMapper();
-            log.info("mapper created");
-            
-            TypeReference<List<UserDetails>> typeReference = new TypeReference<List<UserDetails>>(){};
-            InputStream inputStream = TypeReference.class.getResourceAsStream("/static/demoUserList.json");
-            
-            log.info("inputStream");
-            try {
-                List<UserDetails> users = mapper.readValue(inputStream,typeReference);
-                log.info("users = {}", Arrays.toString(users.toArray()));
-            
-                // userService.save(users);
-                System.out.println("Users Saved!");
-            } catch (IOException e){
-                System.out.println("Unable to save users: " + e.getMessage());
-            }
-       
-        //     try {
-        //     ObjectMapper mapper = new ObjectMapper();
-        //     List<ResponseUser> respUsers =  mapper.readValue(demoUserList.getInputStream(), new TypeReference<List<ResponseUser>>(){});
-        //     log.info("respUsers = {}", Arrays.toString(respUsers.toArray()));
-        //     log.info("demoUserListStr = {}", demoUserListStr);
-      
-      
-        //     Map<String, List<ResponseUser>> responseData = new HashMap<String, List<ResponseUser>>();
-        //     responseData.put("users", respUsers);
-        //     log.info("mapping responseUsers to responseData");
-    
-        //     ResponseEntity<Object> response = this.responseService.generateResponse("Request Successful", HttpStatus.OK,
-        //             responseData);
-        //     log.info("RETURN response = {}", response.toString());
-        //     return response;
-
-
-            
-    
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
-        // return null;
-       
         ResponseEntity<Object> response = this.responseService.generateResponse("Request Successful", HttpStatus.OK,
-        null);
-log.info("RETURN response = {}", response.toString());
-return response;
+                responseData);
+        log.info("RETURN response = {}", response.toString());
+        return response;
 
     }
 
-    // /**
-    // *
-    // * @return a list of all user info, not including passwords
-    // */
-    // @GetMapping("/demo/user/info")
-    // @PreAuthorize("hasRole('ADMIN')")
-    // public ResponseEntity<?> demoGetUserInfo(@Valid @RequestBody UserModRequest
-    // userInfoRequest) {
-    // log.info("");
+    @PostMapping("/resend")
+    public ResponseEntity<?> resend(@Valid @RequestBody UserModRequest resendRequest) {
+        log.info("receieved request for resend");
 
-    // if ((userInfoRequest.getIds() == null || userInfoRequest.getIds().isEmpty())
-    // &&
-    // (userInfoRequest.getUsernames() == null ||
-    // userInfoRequest.getUsernames().isEmpty()) &&
-    // (userInfoRequest.getEmails() == null ||
-    // userInfoRequest.getEmails().isEmpty())) {
-    // ResponseEntity<Object> response =
-    // this.responseService.generateResponse("Request contains no user info.",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
-    // }
+        if (resendRequest.getIds() == null || resendRequest.getIds().isEmpty()) {
+            ResponseEntity<Object> response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
 
-    // return this.userModService.getUserInfo(userInfoRequest.getIds(),
-    // userInfoRequest.getUsernames(),
-    // userInfoRequest.getEmails());
+        }
 
-    // }
+        ResponseEntity<Object> response = this.responseService.generateResponse(
+                "Successfully resent account activation email for user(s)", HttpStatus.OK,
+                resendRequest.getIds());
+        log.info("RETURN response = {}", response.toString());
+        return response;
+    }
 
-    // @PostMapping("/demo/user/resend")
-    // @PreAuthorize("hasRole('MODERATOR')")
-    // public ResponseEntity<?> demoResend(@Valid @RequestBody UserModRequest
-    // resendRequest) {
-    // log.info("");
+    @PutMapping("/roles")
+    public ResponseEntity<?> setUserRole(@Valid @RequestBody UserModRequest roleRequest) {
+        log.info("receieved request for setUserRole");
+        if (roleRequest.getIds() == null || roleRequest.getIds().isEmpty()) {
+            ResponseEntity<Object> response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
 
-    // if (resendRequest.getIds() == null || resendRequest.getIds().isEmpty()) {
-    // ResponseEntity<Object> response = this.responseService.generateResponse("ids
-    // required",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
+        }
 
-    // }
+        if (roleRequest.getNewRole() == null || roleRequest.getNewRole().toString().isEmpty()) {
+            ResponseEntity<Object> response = this.responseService.generateResponse("newRole required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
 
-    // return
-    // this.userModService.resendAccountActivationLink(resendRequest.getIds());
+        }
 
-    // }
+        ResponseEntity<Object> response = this.responseService.generateResponse(
+                "Successfully set role for user(s)", HttpStatus.OK,
+                roleRequest.getIds());
+        log.info("RETURN response = {}", response.toString());
+        return response;
+    }
 
-    // /**
-    // * Changes a User's roles
-    // *
-    // * @param roleRequest
-    // * @return
-    // */
-    // @PutMapping("/demo/user/roles")
-    // @PreAuthorize("hasRole('MODERATOR')")
-    // public ResponseEntity<?> demoSetUserRole(@Valid @RequestBody UserModRequest
-    // roleRequest) {
-    // log.info("");
+    @PutMapping("/status")
+    public ResponseEntity<?> setUserStatus(@Valid @RequestBody UserModRequest statusRequest) {
+        log.info("receieved request for setUserStatus");
+        ResponseEntity<Object> response;
+        if (statusRequest.getIds() == null || statusRequest.getIds().isEmpty()) {
+            response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
+        }
 
-    // if (roleRequest.getIds() == null || roleRequest.getIds().isEmpty()) {
-    // ResponseEntity<Object> response = this.responseService.generateResponse("ids
-    // required",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
+        response = this.responseService.generateResponse(
+                "Successfully" + (statusRequest.getNewStatus() ? " enabled" : " disabled") + " user(s)", HttpStatus.OK,
+                statusRequest.getIds());
+        log.info("RETURN response = {}", response.toString());
+        return response;
+    }
 
-    // }
+    @PutMapping("/unlock")
+    @PreAuthorize("hasRole('MODERATOR')")
+    public ResponseEntity<?> unlockUser(@Valid @RequestBody UserModRequest unlockRequest) {
+        log.info("receieved request for setUserStatus");
+        ResponseEntity<Object> response;
+        if (unlockRequest.getIds() == null || unlockRequest.getIds().isEmpty()) {
+            response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
+        }
+        response = this.responseService.generateResponse(
+                "Successfully unlocked user(s)", HttpStatus.OK,
+                unlockRequest.getIds());
+        log.info("RETURN response = {}", response.toString());
+        return response;
+    }
 
-    // if (roleRequest.getNewRole() == null ||
-    // roleRequest.getNewRole().toString().isEmpty()) {
-    // ResponseEntity<Object> response =
-    // this.responseService.generateResponse("newRole required",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
+    /**
+     * Changes a User's roles
+     * 
+     * @param deleteRequest
+     * @return
+     */
+    @DeleteMapping("/delete")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> deleteUser(@Valid @RequestBody UserModRequest deleteRequest) {
+        log.info("receieved request for deleteUser");
+        if (deleteRequest.getIds() == null || deleteRequest.getIds().isEmpty()) {
+            ResponseEntity<Object> response = this.responseService.generateResponse("ids required",
+                    HttpStatus.BAD_REQUEST, null);
+            log.error("RETURN response = {}", response.toString());
+            return response;
+        }
 
-    // }
+        ResponseEntity<Object> response = this.responseService.generateResponse("Sucessfully deleted user(s)",
+                HttpStatus.ACCEPTED, null);
+        log.info("response = {}", response.toString());
+        return response;
 
-    // return this.userModService.setRole(roleRequest.getIds(),
-    // roleRequest.getNewRole());
-
-    // }
-
-    // /**
-    // * Changes User(s) status
-    // * Expects a list of user IDs that are all the same status,
-    // * then their status set to the newStatus
-    // *
-    // * @param userStatusRequest A list of user IDs, and the new status to set for
-    // * the user(s)
-    // * @return
-    // */
-    // @PutMapping("/demo/user/status")
-    // @PreAuthorize("hasRole('MODERATOR')")
-    // public ResponseEntity<?> demoSetUserStatus(@Valid @RequestBody UserModRequest
-    // userStatusRequest) {
-
-    // log.info("");
-    // ResponseEntity<Object> response;
-    // if (userStatusRequest.getIds() == null ||
-    // userStatusRequest.getIds().isEmpty()) {
-    // response = this.responseService.generateResponse("ids required",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
-    // }
-
-    // // Check status is valid
-    // if (userStatusRequest.getNewStatus() != 0 && userStatusRequest.getNewStatus()
-    // != 1) {
-    // response = this.responseService.generateResponse(
-    // "newStatus \"" + userStatusRequest.getNewStatus() + "\" is invalid",
-    // HttpStatus.UNPROCESSABLE_ENTITY, null);
-    // log.error(" RETURN response = {} ", response.toString());
-    // return response;
-    // }
-    // log.info(" newStatus is valid");
-
-    // return this.userModService.setStatus(userStatusRequest.getIds(),
-    // userStatusRequest.getNewStatus());
-    // }
-
-    // /**
-    // * Changes a User's roles
-    // *
-    // * @param deleteRequest
-    // * @return
-    // */
-    // @DeleteMapping("/demo/user/delete")
-    // @PreAuthorize("hasRole('ADMIN')")
-    // public ResponseEntity<?> demoDeleteUser(@Valid @RequestBody UserModRequest
-    // deleteRequest) {
-
-    // log.info("");
-
-    // if (deleteRequest.getIds() == null || deleteRequest.getIds().isEmpty()) {
-    // ResponseEntity<Object> response = this.responseService.generateResponse("ids
-    // required",
-    // HttpStatus.BAD_REQUEST, null);
-    // log.error(" RETURN response = {}", response.toString());
-    // return response;
-    // }
-
-    // return this.userModService.deleteUser(deleteRequest.getIds());
-
-    // }
+    }
 }

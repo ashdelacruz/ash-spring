@@ -34,9 +34,14 @@ public class BadCredentialsEventListener implements
 
         User user = userService.getByUsername(e.getAuthentication().getPrincipal().toString());
 
+        log.info("getFailedLoginAttempts = {}", user.getFailedLoginAttempts());
+        log.info("maxFailedLogin = {}", this.maxFailedLoginAttempts);
+
+        log.info("user.getFailedLoginAttempts() <= this.maxFailedLoginAttempts) = {}", user.getFailedLoginAttempts() <= this.maxFailedLoginAttempts);
+
         if (user != null) {
             if (user.isAccountNonLocked()) {
-                if (user.getFailedLoginAttempts() <= this.maxFailedLoginAttempts) {
+                if (user.getFailedLoginAttempts() < this.maxFailedLoginAttempts) {
                     log.info("not locked yet, increating FailedLoginAttempts");
                     userService.increaseFailedAttempts(user);
                 } else {
