@@ -48,7 +48,7 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 // @CrossOrigin(origins = "*")
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
+// @CrossOrigin(origins = "http://localhost:4200", maxAge = 3600, allowCredentials = "true")
 @Slf4j
 @RestController
 @RequestMapping("/api/auth")
@@ -183,7 +183,7 @@ public class AuthController {
                 }
 
 
-                log.info("credentials are valid");
+                // log.info("credentials are valid");
 
                 return this.authService.authenticateUser(loginRequest, token);
         }

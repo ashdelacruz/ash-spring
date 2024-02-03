@@ -23,24 +23,6 @@ import lombok.Data;
 @Data
  
 public class User {
-    // @Id
-    // private String id;
-
-    // @NotBlank
-    // @Size(min = -1, max = 1)
-    // private int status;
-
-    // @NotBlank
-    // @Size(max = 20)
-    // private String username;
-
-    // @NotBlank
-    // @Size(max = 50)
-    // @Email
-    // private String email;
-
-    // @DBRef
-    // private Set<Role> roles = new HashSet<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -88,6 +70,32 @@ public class User {
         this.email = email;
         this.password = password;
         this.isEnabled = false;
+    }
+
+    //For Demo users
+    public User(
+        String id, 
+        String username, 
+        String email, 
+        Date lastLogin, 
+        int failedLoginAttempts, 
+        Date lockTime, 
+        boolean isEnabled, 
+        boolean accountNonLocked, 
+        Set<Role> roles, 
+        Set<Preference> preferences) {
+
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.password = "xxxxxxxx";
+        this.lastLogin = lastLogin;
+        this.failedLoginAttempts = failedLoginAttempts;
+        this.lockTime = lockTime;
+        this.isEnabled = isEnabled;
+        this.accountNonLocked = accountNonLocked;
+        this.roles = roles;
+        this.preferences = preferences;
     }
 
     // public User(UserDetailsImpl userDetails) {

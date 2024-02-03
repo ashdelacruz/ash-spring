@@ -82,7 +82,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/mod/**").hasRole("MODERATOR")
-                        // .requestMatchers("/api/demo/**").permitAll()
+                        .requestMatchers("/api/demo/**").permitAll()
                         // .requestMatchers("/api/test/**").permitAll()
                         // .requestMatchers("/api/stream/**").hasRole("USER")
                         // .requestMatchers("/api/v1/**").permitAll()
