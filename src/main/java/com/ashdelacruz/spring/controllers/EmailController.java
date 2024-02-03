@@ -19,15 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/email")
 public class EmailController {
 
     @Autowired
     EmailService emailService;
 
-
-    @PostMapping("/send-email")
-    public String sendEmail(@Valid @RequestBody NotificationRequest notificationRequest) {
+    @PostMapping("/send")
+    public String send(@Valid @RequestBody NotificationRequest notificationRequest) {
         
         emailService.send((notificationRequest.getEmail()),notificationRequest.getSubject(), notificationRequest.getMessage());
 
@@ -37,7 +36,7 @@ public class EmailController {
     @PostMapping("/send-html-notification-email")
     public String testSendHtmlNotification(@Valid @RequestBody NotificationRequest notificationRequest) {
         NotificationEmail notificationEmail = new NotificationEmail(
-            "earl.ashleigh.delacruz@gmail.com",
+            "ash.email.noreply@gmail.com",
             "John Smith", 
             "Notification - AshDelaCruz.com", 
             "This is a notification");

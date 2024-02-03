@@ -9,9 +9,10 @@ COPY .mvn/ .mvn
 COPY mvnw pom.xml ./
 RUN ./mvnw dependency:go-offline
 COPY ./src ./src
-RUN ./mvnw clean install
+RUN ./mvnw clean install 
  
 FROM --platform=linux/arm/v8 eclipse-temurin:17-jre-jammy AS run-stage
+#FROM eclipse-temurin:17-jre-jammy AS run-stage
 WORKDIR /opt/ash-backend
 EXPOSE 80
 COPY --from=build-stage /opt/ash-backend/target/*.jar /opt/ash-backend/*.jar

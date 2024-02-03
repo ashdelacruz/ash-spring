@@ -2,10 +2,13 @@ package com.ashdelacruz.spring.services;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -24,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 public class EmailService {
 
     @Autowired(required = false)
-    private JavaMailSender eMailSender;
+    private JavaMailSender emailSender;
 
     @Autowired
     private SpringTemplateEngine templateEngine;
@@ -63,7 +66,8 @@ public class EmailService {
         log.info("email: {} subject: {} message: {}", toEmail, subject, message);
 
         try {
-            MimeMessage mimeMessage = eMailSender.createMimeMessage();
+            // JavaMailSender emailSender = this.getJavaMailSender();
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -80,7 +84,7 @@ public class EmailService {
 
             log.info("Email queued - My Own Email");
 
-            eMailSender.send(mimeMessage);
+            emailSender.send(mimeMessage);
 
         } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
@@ -93,7 +97,8 @@ public class EmailService {
                 notificationEmail.getSubject(), notificationEmail.getMessage1());
 
         try {
-            MimeMessage mimeMessage = eMailSender.createMimeMessage();
+            // JavaMailSender emailSender = this.getJavaMailSender();
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -141,7 +146,7 @@ public class EmailService {
 
             log.info("htmlNotificationmimeMessage = {}", mimeMessage.getContent().toString());
 
-            eMailSender.send(mimeMessage);
+            emailSender.send(mimeMessage);
             log.info("htmlNotificationMessage queued");
 
         } catch (Exception e) {
@@ -155,7 +160,8 @@ public class EmailService {
                 authEmail.getMessage1());
 
         try {
-            MimeMessage mimeMessage = eMailSender.createMimeMessage();
+            // JavaMailSender emailSender = this.getJavaMailSender();
+            MimeMessage mimeMessage = emailSender.createMimeMessage();
 
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
 
@@ -206,7 +212,7 @@ public class EmailService {
 
             log.info("htmlAuthmimeMessage = {}", mimeMessage.toString());
 
-            eMailSender.send(mimeMessage);
+            emailSender.send(mimeMessage);
             log.info("htmlAuthMessage queued");
 
         } catch (Exception e) {

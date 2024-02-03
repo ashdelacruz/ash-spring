@@ -86,7 +86,7 @@ public class WebSecurityConfig {
                         // .requestMatchers("/api/test/**").permitAll()
                         // .requestMatchers("/api/stream/**").hasRole("USER")
                         // .requestMatchers("/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                        // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated())
                 // .httpBasic(httpBasic -> httpBasic.authenticationEntryPoint(authEntryPoint))
                 // .httpBasic(Customizer.withDefaults())
