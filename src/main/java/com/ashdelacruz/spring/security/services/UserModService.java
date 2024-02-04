@@ -243,7 +243,7 @@ public class UserModService {
             TokenType tokenType = tokenTypeRepository.findByName(EToken.LOGIN).get();
             if (tokenRepository.existsByUser(user)) {
                 Token existingToken = tokenRepository.findByUser(user).get();
-                if (existingToken.getType() != tokenType) {
+                if (!existingToken.getType().getId().equals(tokenType.getId())) {
                     existingToken.setType(tokenType);
                 }
                 tokenString = existingToken.getToken();
@@ -409,7 +409,7 @@ public class UserModService {
                 // Then repurpose for login
                 if (tokenRepository.existsByUser(user)) {
                     Token existingToken = tokenRepository.findByUser(user).get();
-                    if (existingToken.getType() != tokenType) {
+                    if (!existingToken.getType().getId().equals(tokenType.getId())) {
                         existingToken.setType(tokenType);
                     }
                     tokenString = existingToken.getToken();

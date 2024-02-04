@@ -35,14 +35,24 @@ public class TokenService {
     public boolean isTokenExpired(String token) {
         Token foundToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Error: Token " + token + " not found"));
         final Calendar cal = Calendar.getInstance();
+
+        log.info("foundExpiration = {}, currentTime = {}, is expiration before current time? {}", foundToken.getExpirationDate(), cal.getTime(), foundToken.getExpirationDate().before(cal.getTime()));
+        // log.info("foundExpiration = {}", foundToken.getExpirationDate());
+
         return foundToken.getExpirationDate().before(cal.getTime());
     }
 
     public boolean isTokenCorrectType(String token, EToken type) {
         Token foundToken = tokenRepository.findByToken(token).orElseThrow(() -> new RuntimeException("Error: Token " + token + " not found"));
         TokenType tokenType = tokenTypeRepository.findByName(type).get();
-                               
-        return foundToken.getType() == tokenType;
+        
+        log.info("foundToken ID = {}", foundToken.getType().getId());
+
+        log.info("tokenType ID = {}", tokenType.getId());
+
+        log.info("ID == ID? {}", foundToken.getType().getId().equals(tokenType.getId()));
+
+        return foundToken.getType().getId().equals(tokenType.getId());
     }
 
     public void deleteUsedToken(String token) {

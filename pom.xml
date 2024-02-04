@@ -130,8 +130,11 @@
 			<version>2.11.0</version>
 		</dependency>
 
-
-		<dependency>
+		<!--Original Email implementation used AWS SES for a custom @ashdelacruz.com from domain
+			but SES denied my request for production access, 
+			so I switched to Google SMTP without custom domain -->
+			
+		<!-- <dependency>
 			<groupId>io.awspring.cloud</groupId>
 			<artifactId>spring-cloud-starter-aws-ses</artifactId>
 		</dependency>
@@ -140,11 +143,11 @@
 			<groupId>io.awspring.cloud</groupId>
 			<artifactId>spring-cloud-aws-messaging</artifactId>
 			<version>2.4.0</version>
-		</dependency>
+		</dependency> -->
 
 	</dependencies>
 
-	<dependencyManagement>
+	<!-- <dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>io.awspring.cloud</groupId>
@@ -154,7 +157,7 @@
 				<scope>import</scope>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
+	</dependencyManagement> -->
 
 	<build>
 		<plugins>

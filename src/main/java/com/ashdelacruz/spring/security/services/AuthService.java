@@ -1,5 +1,6 @@
 package com.ashdelacruz.spring.security.services;
 
+import java.util.Date;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,9 @@ public class AuthService {
 
         @Value("${myEmail}")
         private String myEmail;
+
+        @Value("${loginUrl}")
+        private String loginUrl;
 
         public final String CONTACT_SUBJECT = "Contact Received From AshDelaCruz.com";
         public final String EXISTING_TOKEN_MESSAGE = " Any links previously sent to your email from AshDelaCruz.com will no longer work.";
@@ -184,7 +188,7 @@ public class AuthService {
                                 log.error("RETURN response = " + response.toString());
                                 return response;
                         } else {
-                                if (token.getUser().getId() != userDetails.getId()) {
+                                if (!token.getUser().getId().equals(userDetails.getId())) {
                                         log.warn("Token is valid but for incorrect user {}",
                                                         token.getUser().getUsername());
                                         response = this.responseService.generateResponse("Token invalid",
@@ -197,6 +201,50 @@ public class AuthService {
                                         isAccountActivationSuccess = true;
                                         tokenService.deleteUsedToken(token.getToken());
                                 }
+                        }
+                } else {
+                        if (userDetails.getLastLogin() == null && userDetails.isEnabled()
+                                        && !userDetails.getAuthorities().isEmpty()) {
+
+                                User user = userRepository.findById(userDetails.getId()).get();
+                                String tokenString;
+                                Date tokenExpirationDate;
+                                TokenType tokenType = tokenTypeRepository.findByName(EToken.LOGIN).get();
+                                if (tokenRepository.existsByUser(user)) {
+                                        Token existingToken = tokenRepository.findByUser(user).get();
+                                        if (!existingToken.getType().getId().equals(tokenType.getId())) {
+                                                existingToken.setType(tokenType);
+                                        }
+                                        tokenString = existingToken.getToken();
+                                        tokenExpirationDate = existingToken.getExpirationDate();
+                                        tokenRepository.save(existingToken);
+                                } else {
+                                        // Create new token
+                                        tokenString = UUID.randomUUID().toString();
+                                        Token loginToken = new Token(user, tokenString, tokenType);
+                                        tokenExpirationDate = loginToken.getExpirationDate();
+                                        tokenRepository.save(loginToken);
+                                        log.info("generated account activation token");
+                                }
+
+                                // Send reset creds link to email
+                                String url = this.loginUrl + "?token=" + tokenString;
+                                log.info("generated account activation link");
+
+                                AuthEmail authEmail = new AuthEmail(
+                                                user.getEmail(),
+                                                user.getUsername(),
+                                                "Welcome to AshDelaCruz.com!",
+                                                "Your account request has been approved. To activate your account, please login via the link below.",
+                                                url,
+                                                "The above link will expire on " + tokenExpirationDate + ".");
+                                emailService.htmlAuthSend(authEmail);
+
+                                response = this.responseService.generateResponse(
+                                                "User account is pending activation, please login via the link in your email.",
+                                                HttpStatus.UNPROCESSABLE_ENTITY, null);
+                                log.error("RETURN response = " + response.toString());
+                                return response;
                         }
                 }
 
@@ -373,7 +421,7 @@ public class AuthService {
                                 tokenExpirationString = existingToken.getExpirationDate().toString();
                                 // log.debug("existing token = {}", existingToken.toString());
 
-                                if (existingToken.getType() != tokenType) {
+                                if (!existingToken.getType().getId().equals(tokenType.getId())) {
                                         log.info("existing token was a "
                                                         + existingToken.getType().toString() + " token; converting to "
                                                         + tokenType.toString() + " token");
@@ -606,7 +654,7 @@ public class AuthService {
                 }
                 log.info("newUsername is NOT already in use");
 
-        User user = tokenService.getUserByToken(token);
+                User user = tokenService.getUserByToken(token);
                 log.info("user found for token; currentUname = {}", user.getUsername());
 
                 user.setUsername(newUsername);

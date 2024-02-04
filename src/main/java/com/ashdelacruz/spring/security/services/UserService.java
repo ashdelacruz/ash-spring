@@ -109,7 +109,7 @@ public class UserService {
 
             Token existingToken = tokenRepository.findByUser(user).get();
 
-            if (existingToken.getType() != tokenType) {
+            if (!existingToken.getType().getId().equals(tokenType.getId())) {
 
                 log.info("existing token was not a " + tokenType.getName() + " token; converting to "
                         + tokenType.getName() + " token and saving");
